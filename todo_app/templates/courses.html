@@ -1,0 +1,65 @@
+{% extends "layout.html" %} {% block content %}
+<div class="row">
+    <div class="col-6">
+        <h1>Course Offerings</h1>
+    </div>
+    {% if admin %}
+    <div class="col-6 text-right">
+        <a id="btn1" href="{{ url_for('add_courses') }}"><button class="btn btn-primary">Add Courses</button></a>
+    </div>
+    {% endif %}
+</div>
+
+<p>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    </p>
+<!--  Display the Term and Year here --->
+<h3>Term: {{ term }}</h3>
+
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Course ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Construct the rest of courses here -->
+      {% for data in data %}
+      
+      <tr>
+        <td scope="row">{{ data[0] }}</td>
+        <td>{{ data[1] }}</td>
+        <td>{{ data[2] }}</td>
+ 
+        <td>
+          <form action="{{ url_for('enrollment') }}" method="post">
+            <input type="hidden" name="c_id" value="{{data[0]}}" />
+            <button class="btn-primary" type="submit">Enroll</button>
+          </form>
+
+          {% if admin %}
+          <a href="/update_course/{{data[0]}}">
+            <button class="btn-primary" type="submit">Update</button>
+          </a>
+          {% endif %}
+                      
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

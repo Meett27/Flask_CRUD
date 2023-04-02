@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+    
+{% block content %}
+
+<h1>Update Course</h1>
+
+
+<div class="container">
+    {% for data in data %}
+    <form action="{{url_for('update_course')}}" method="post">
+      
+        <div class="mb-6 row">
+            <label class="col-4 col-form-label text-right">Title</label>
+            <div class="col-6">
+                <input type="hidden" name="c_id" value="{{data[0]}}" class="form-control" >
+
+                <input type="text" name="c_title" value="{{data[1]}}" class="form-control" >
+            </div>
+        </div>
+        <div class="mb-6 row">
+            <label class="col-4 col-form-label text-right">Description</label>
+            <div class="col-6">
+                <input type="text" name="c_desc" value="{{data[2]}}" class="form-control" >
+            </div>
+        </div>
+    
+        <div class="mb-6 row">
+            <div class="col-12 text-center">
+                <button class="add-btn" type="submit">Submit</button>
+            </div>
+            
+        </div>
+    </form>
+    {% endfor %}
+   
+</div>
+<br>
+<br>
+{% endblock %}
