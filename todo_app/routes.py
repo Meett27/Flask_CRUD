@@ -157,11 +157,16 @@ def update_course():
 def enrollment():
     if request.method == 'POST':
         c_id = request.form.get('c_id')
-        data = ()
-        sql = """INSERT INTO enrollment (user_id, course_id) VALUES({0},{1})""".format(session['id'], c_id)
+        # c_id = int(c_id)
+        u_id = session['id']
+        # print(type(c_id))
+        data = (int(u_id),int(c_id))
+        sql = """INSERT INTO enrollment (user_id, course_id) VALUES(%s,%s)"""%(data)
         conn = db.connect()
         csr = conn.cursor()
         csr.execute(sql)
+        conn.commit()
+        print(csr.description)
         csr.close()
         conn.close()
         flash("course enrolled succesfully.")
@@ -169,10 +174,11 @@ def enrollment():
 
 @app.route('/enrollments', methods=['POST', 'GET'])
 def get_enrollment():
-    sql = """SELECT * FROM enrollment where """
+    sql = """ SELECT * FROM enrollment """
     conn = db.connect()
     csr = conn.cursor()
     result = csr.execute(sql)
+    print(len(result))
     csr.close()
     conn.close()
     return render_template('enrollment.html')
