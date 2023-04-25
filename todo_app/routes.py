@@ -174,11 +174,17 @@ def enrollment():
 
 @app.route('/enrollments', methods=['POST', 'GET'])
 def get_enrollment():
-    sql = """ SELECT * FROM enrollment """
+    u_id = session['id']
+    sql = """ SELECT *  
+            FROM courses 
+            LEFT JOIN enrollment ON enrollment.course_id = courses.id   
+            WHERE enrollment.user_id = %s  """%(u_id)
+    
     conn = db.connect()
     csr = conn.cursor()
-    result = csr.execute(sql)
-    print(len(result))
+    csr.execute(sql)
+    result = csr.fetchall()
+    print(result)
     csr.close()
     conn.close()
-    return render_template('enrollment.html')
+    return render_template('enrollment.html', data=result)

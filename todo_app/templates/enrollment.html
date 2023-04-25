@@ -2,14 +2,16 @@
 
 {% block content %}
     <div class="row">
+       
         <div class="col-md-12 text-center">
             <h1>You are enrolled in:</h1>
-
-            <p>Course ID: {{ data.id }}</p>
-            <p>Course Title: {{ data.title }}</p>
-            <p>Course Term: {{ data.term }}</p>
-
+            {% for data in data %}
+            <p>Course ID: {{ data[0] }}</p>
+            <p>Course Title: {{ data[1] }}</p>
+            <p>Course Description {{data[2]}}</p>
+            {% endfor %}
         </div>
+        
     </div>
 {% endblock %}
 
